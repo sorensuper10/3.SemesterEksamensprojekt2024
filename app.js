@@ -23,17 +23,14 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-// MongoDB connection
 mongoose.connect(dbConnectionString, { connectTimeoutMS: 10000 })
     .then(() => console.log('MongoDB connected successfully.'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// Brug ruterne fra userRoute
 app.use(userRoute);
 
-// Velkomstside
 app.get("/", (req, res) => {
-    res.render("login");
+    res.render("index");
 });
 
 app.get("/dashboard", (req, res) => {
@@ -43,7 +40,6 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard", { username: req.session.username });
 });
 
-// Start serveren
 app.listen(3000, () => {
     console.log("Serveren kører på http://localhost:3000");
 });
