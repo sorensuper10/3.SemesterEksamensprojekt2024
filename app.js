@@ -1,24 +1,49 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const port = process.env.PORT || 3000
-const path = require('path');
+require("dotenv").config();  // Dette indlæser .env-filen
 
-const app = express()
+const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const ejs = require("ejs");
+const userRoute = require("./routes/userRoute");
 
+const port = process.env.PORT || 3000;
+const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
-app.use(express.static(path.join(__dirname, 'public')));
+const app = express();
 
+// Middleware til at parse request body og håndtere sessions
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
 
-app.set('view engine', 'ejs');
+app.use(session({
+    secret: "hemmeligNøgle",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
-// Sæt views-mappen
-app.set('views', path.join(__dirname, 'views'));
+// MongoDB connection
+mongoose.connect(dbConnectionString, { connectTimeoutMS: 10000 })
+    .then(() => console.log('MongoDB connected successfully.'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
-// Route til at renderere EJS-filen
-app.get('/', (req, res) => {
-    res.render('index'); // index.ejs i views-mappen
+// Brug ruterne fra userRoute
+app.use(userRoute);
+
+// Velkomstside
+app.get("/", (req, res) => {
+    res.render("login");
 });
-//Run server
-app.listen(port, () => {
-    console.log('Server is running at http://localhost:3000');
+
+app.get("/dashboard", (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    res.render("dashboard", { username: req.session.username });
+});
+
+// Start serveren
+app.listen(3000, () => {
+    console.log("Serveren kører på http://localhost:3000");
 });
