@@ -25,8 +25,6 @@ app.use(session({
 
 // Mongoose connection
 mongoose.connect(dbConnectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 }).then(() => {
     console.log('Connected to MongoDB Atlas!');
 }).catch((err) => {
