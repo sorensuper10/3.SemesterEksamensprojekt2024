@@ -12,7 +12,7 @@ router.post("/login", userController.login);
 
 // Registreringsside og handling
 router.get("/create-user", (req, res) => res.render("create-user"));
-router.post("/register", userController.postCreateUser);
+router.post("/create-user", userController.postCreateUser);
 
 // Log ud
 router.get("/logout", userController.logout);
@@ -21,7 +21,5 @@ router.get("/logout", userController.logout);
 router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
     res.render("dashboardadmin", { username: req.session.username });
 });
-
-
 
 module.exports = router;
