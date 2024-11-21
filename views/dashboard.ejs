@@ -98,7 +98,7 @@
 <div class="sidebar">
     <h3 class="text-center">Dyreinternat Dashboard</h3>
     <a href="#">Hjem</a>
-    <a href="#">Adoption</a>
+    <a href="/adoption">Adoption</a> <!-- Direkte href til adoption -->
     <a href="#">Brugere</a>
     <a href="#">Notifikationer</a>
     <a href="#">Indstillinger</a>
@@ -111,46 +111,29 @@
     <!-- Statistics -->
     <div class="stats-container">
         <div class="stat-card">
-            <i class="fas fa-dog"></i>
-            <h4>Antal Dyr</h4>
-            <p>50</p>
+            <i class="fas fa-users"></i>
+            <h4>Antal Brugere</h4>
+            <p id="userCount"><%= userCount %></p>
         </div>
         <div class="stat-card">
             <i class="fas fa-paw"></i>
-            <h4>Antal Adoptioner</h4>
-            <p>25</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <h4>Antal Brugere</h4>
-            <p>120</p>
+            <h4>Antal Dyr</h4>
+            <p id="animalCount"><%= animalCount %></p> <!-- Vis antal dyr -->
         </div>
     </div>
 
     <!-- Animal Adoption Overview -->
     <h3>Dyre Oversigt</h3>
     <div class="row">
-        <div class="col-md-4">
-            <div class="animal-card">
-                <img src="https://via.placeholder.com/300x200" alt="Bella">
-                <h3>Bella</h3>
-                <p>En kærlig og energisk hund på 2 år.</p>
+        <% animals.forEach(animal => { %>
+            <div class="col-md-4">
+                <div class="animal-card">
+                    <img src="<%= animal.image %>" alt="<%= animal.name %>">
+                    <h3><%= animal.name %></h3>
+                    <p><%= animal.description %></p>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="animal-card">
-                <img src="https://via.placeholder.com/300x200" alt="Simba">
-                <h3>Simba</h3>
-                <p>En rolig og kælen hund på 3 år.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="animal-card">
-                <img src="https://via.placeholder.com/300x200" alt="Nala">
-                <h3>Nala</h3>
-                <p>En sød hund, der elsker kød.</p>
-            </div>
-        </div>
+        <% }); %>
     </div>
 
     <!-- Latest Activities -->
@@ -160,15 +143,14 @@
         </div>
         <div class="card-body">
             <ul>
-                <li>Ny hund oprettet: Bella (2 år)</li>
-                <li>Ny bruger oprettet: John Doe</li>
-                <li>Adoption: Simba er blevet adopteret!</li>
+                <% activities.forEach(activity => { %>
+                    <li><%= activity %></li>
+                <% }); %>
             </ul>
         </div>
     </div>
 
     <a href="/logout" class="logout-btn">Log ud</a>
 </div>
-
 </body>
 </html>
