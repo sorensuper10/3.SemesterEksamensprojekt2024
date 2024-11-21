@@ -11,7 +11,7 @@ router.get("/login", (req, res) => {
 router.post("/login", userController.login);
 
 // Registreringsside og handling
-router.get("/register", (req, res) => res.render("register"));
+router.get("/create-user", (req, res) => res.render("create-user"));
 router.post("/register", userController.postCreateUser);
 
 // Log ud
