@@ -22,4 +22,6 @@ router.get("/create-user", userController.getCreateUser);
 // POST - Håndter oprettelse af bruger
 router.post("/create-user", userController.postCreateUser);
 
+
+
 module.exports = router;
