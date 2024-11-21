@@ -59,4 +59,13 @@ exports.logout = (req, res) => {
     req.session.destroy(() => {
         res.redirect("/login");
     });
-};
+
+    exports.getAllUsers = async (req, res) => {
+        try {
+            const users = await User.find();
+            res.render('dashboard', { users, userCount: users.length });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Error while getting all the users");
+        }
+    }};
