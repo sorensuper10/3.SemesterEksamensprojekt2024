@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Pet</title>
+    <link rel="stylesheet" href="styles/createPet.css">
+</head>
+<body>
+<div class="container">
+    <h1>Create a Pet</h1>
+    <form action="/createPet" method="POST">
+        <label for="animal">Animal:</label>
+        <input type="text" id="animal" name="animal" required>
+
+        <label for="race">Race:</label>
+        <input type="text" id="race" name="race" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight" name="weight" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <button type="submit">Create Pet</button>
+    </form>
+</div>
+</body>
+</html>
