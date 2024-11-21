@@ -50,6 +50,10 @@ exports.updatePet = async (req, res) => {
         res.status(500).send("fejl ved opdatering af post");
     }
 }
+exports.getAdoptionPage = (req, res) => {
+    const animals = [];
+    res.render('adoption', { animals });
+};
 
 exports.deletePet = async (req, res) => {
     try {
