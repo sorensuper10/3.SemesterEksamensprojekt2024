@@ -8,13 +8,15 @@ const ejs = require("ejs");
 const userRoute = require("./routes/userRoute");
 const petRoutes = require("./routes/petRoutes");
 const User = require("./models/userModel");  // Antager du har en User-model
-const Animal = require("./models/petModel");  // Antager du har en Animal-model
+const Animal = require("./models/petModel");
+const path = require("path");  // Antager du har en Animal-model
 
 const port = process.env.PORT || 3000;
 const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
 const app = express();
 
+app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
