@@ -83,20 +83,49 @@
     <h2>Adopter Et Dyr</h2>
     <p>Her kan du se listen over tilgængelige dyr til adoption. Klik på "Adopter" for at tage dem med hjem!</p>
 
-    <div class="row">
+    <!-- Filter dropdown -->
+    <div class="mb-3">
+        <label for="animalType" class="form-label">Vælg dyretype:</label>
+        <select id="animalType" class="form-select">
+            <option value="all">Alle</option>
+            <option value="hund">Hund</option>
+            <option value="kat">Kat</option>
+            <option value="kanin">Kanin</option>
+            <option value="hamster">Hamster</option>
+            <!-- Tilføj flere dyretyper her om nødvendigt -->
+        </select>
+    </div>
+
+    <!-- Animal Cards -->
+    <div class="row" id="animalList">
         <% animals.forEach(animal => { %>
-            <div class="col-md-4">
-                <div class="animal-card">
-                    <img src="<%= animal.image %>" alt="<%= animal.name %>">
-                    <h3><%= animal.name %></h3>
-                    <p><%= animal.description %></p>
-                    <form action="/adopt/<%= animal.id %>" method="POST">
-                        <button type="submit" class="adopt-btn">Adopter</button>
-                    </form>
-                </div>
+            <div class="col-md-4 animal-card" data-type="<%= animal.type %>">
+                <img src="<%= animal.image %>" alt="<%= animal.name %>">
+                <h3><%= animal.name %></h3>
+                <p><%= animal.description %></p>
+                <form action="/adopt/<%= animal.id %>" method="POST">
+                    <button type="submit" class="adopt-btn">Adopter</button>
+                </form>
             </div>
         <% }); %>
     </div>
 </div>
+
+<!-- JavaScript for Filtering -->
+<script>
+    document.getElementById('animalType').addEventListener('change', function() {
+        var selectedType = this.value;
+        var animals = document.querySelectorAll('.animal-card');
+
+        animals.forEach(function(animal) {
+            if (selectedType === 'all' || animal.getAttribute('data-type') === selectedType) {
+                animal.style.display = 'block';
+            } else {
+                animal.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
