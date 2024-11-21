@@ -1,7 +1,8 @@
-// routes/userRoute.js
 const express = require("express");
 const userController = require("../controllers/userController");
+
 const router = express.Router();
+const { checkRole } = userController;
 
 // Login-side og handling
 router.get("/login", (req, res) => {
@@ -10,16 +11,23 @@ router.get("/login", (req, res) => {
 router.post("/login", userController.login);
 
 // Registreringsside og handling
-router.get("/register", userController.register);
+router.get("/register", (req, res) => res.render("register"));
 router.post("/register", userController.postCreateUser);
 
 // Log ud
 router.get("/logout", userController.logout);
 
-// GET - Vis formularen til at oprette en bruger
-router.get("/create-user", userController.getCreateUser);
+// Admin-dashboard (kun for admins)
+router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
+    res.render("dashboardadmin", { username: req.session.username });
+});
 
-// POST - Håndter oprettelse af bruger
-router.post("/create-user", userController.postCreateUser);
+// Bruger-dashboard (alle brugere)
+router.get("/dashboard", (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    res.render("dashboard", { username: req.session.username });
+});
 
 module.exports = router;

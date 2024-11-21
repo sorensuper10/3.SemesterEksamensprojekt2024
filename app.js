@@ -1,63 +1,49 @@
-require("dotenv").config();  // Dette indlæser .env-filen
+require("dotenv").config(); // Indlæs .env-filen
 
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const userRoute = require("./routes/userRoute");
-const petRoutes = require("./routes/petRoutes");
 const path = require("path");
-
-const port = process.env.PORT || 3000;
-const dbConnectionString = process.env.DB_CONNECTION_STRING;
+const userRoute = require("./routes/userRoute");
 
 const app = express();
 
+// Miljøkonfiguration
+const port = process.env.PORT || 3000;
+const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
-app.use(express.static(path.join(__dirname,'public')));
+// Middleware
+app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
+// Session setup
 app.use(session({
     secret: "hemmeligNøgle",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
+    saveUninitialized: false,
+    cookie: { secure: false }, // Sæt til true, når HTTPS er aktiveret
 }));
 
-// Mongoose connection
-mongoose.connect(dbConnectionString, {
-}).then(() => {
-    console.log('Connected to MongoDB Atlas!');
-}).catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-    process.exit(1); // Stop appen, hvis der er fejl
-});
+// Forbindelse til MongoDB
+mongoose.connect(dbConnectionString, {})
+    .then(() => console.log("Forbundet til MongoDB Atlas!"))
+    .catch((err) => {
+        console.error("Kunne ikke forbinde til MongoDB:", err);
+        process.exit(1);
+    });
 
+// Brug ruter
 app.use(userRoute);
-app.use(petRoutes);
 
+// Startside
 app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/dashboard", (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-    res.render("dashboard", { username: req.session.username });
-});
-
-app.get("/dashboardadmin", (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-    res.render("dashboardadmin", { username: req.session.username });
-});
-
-
-
+// Server lytning
 app.listen(port, () => {
-    console.log("Serveren kører på http://localhost:3000");
+    console.log(`Server kører på http://localhost:${port}`);
 });
