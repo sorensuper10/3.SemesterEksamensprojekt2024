@@ -59,3 +59,8 @@ exports.deletePet = async (req, res) => {
         res.status(500).send("fejl ved sletning af pet");
     }
 }
+
+// Registrering funktion
+exports.createPetEJS = (req, res) => {
+    res.render("createPet");
+};
