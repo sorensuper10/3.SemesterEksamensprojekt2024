@@ -12,7 +12,7 @@ const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
 const app = express();
 
-// Middleware til at parse request body og håndtere sessions
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
@@ -45,6 +45,6 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard", { username: req.session.username });
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("Serveren kører på http://localhost:3000");
 });
