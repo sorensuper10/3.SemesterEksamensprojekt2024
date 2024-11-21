@@ -1,4 +1,4 @@
-require("dotenv").config();  // Indlæs .env-filen
+require("dotenv").config();  // Dette indlæser .env-filen
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -7,14 +7,15 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const userRoute = require("./routes/userRoute");
 const petRoutes = require("./routes/petRoutes");
-const User = require("./models/userModel");  // Antager du har en User-model
-const Animal = require("./models/petModel");
-const path = require("path");  // Antager du har en Animal-model
+const logger = require('./middlewares/logger');
+const rateLimitMiddleware = require("./middlewares/ratelimit");
+const path = require("path");
 
 const port = process.env.PORT || 3000;
 const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
 const app = express();
+
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,14 +29,13 @@ app.use(session({
 }));
 
 // Mongoose connection
-mongoose.connect(dbConnectionString, {})
-    .then(() => {
-        console.log('Connected to MongoDB Atlas!');
-    })
-    .catch((err) => {
-        console.error('Failed to connect to MongoDB:', err);
-        process.exit(1);  // Stop appen, hvis der er fejl
-    });
+mongoose.connect(dbConnectionString, {
+}).then(() => {
+    console.log('Connected to MongoDB Atlas!');
+}).catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1); // Stop appen, hvis der er fejl
+});
 
 app.use(userRoute);
 app.use(petRoutes);
@@ -44,32 +44,25 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-// Dashboard Route
-app.get("/dashboard", async (req, res) => {
+app.get("/dashboard", (req, res) => {
     if (!req.session.userId) {
         return res.redirect("/login");
     }
-
-    try {
-        const users = await User.find();  // Hent alle brugere
-        const animals = await Animal.find();  // Hent alle dyr
-        const activities = [
-            "Ny hund oprettet: Bella (2 år)",
-            "Ny bruger oprettet: John Doe",
-            "Adoption: Simba er blevet adopteret!"
-        ];  // Aktiviteter, som du kan hente dynamisk senere
-
-        res.render("dashboard", {
-            username: req.session.username,
-            userCount: users.length,  // Antal brugere
-            animals: animals,
-            activities: activities
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error while getting data for the dashboard");
-    }
+    res.render("dashboard", { username: req.session.username });
 });
+
+app.get("/dashboardadmin", (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    res.render("dashboardadmin", { username: req.session.username });
+});
+
+//Middleware
+app.use(logger);
+app.use(rateLimitMiddleware);
+
+
 
 app.listen(port, () => {
     console.log("Serveren kører på http://localhost:3000");
