@@ -75,3 +75,13 @@ exports.checkRole = (role) => {
         res.status(403).send("Adgang nægtet: Du har ikke tilladelse.");
     };
 };
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.render('dashboard', {users, userCount: users.length});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error while getting all the users");
+    }
+};

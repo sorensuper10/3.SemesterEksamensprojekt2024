@@ -22,14 +22,6 @@ router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
     res.render("dashboardadmin", { username: req.session.username });
 });
 
-// Bruger-dashboard (alle brugere)
-router.get("/dashboard", (req, res) => {
-    if (!req.session.userId) {
-        return res.redirect("/login");
-    }
-    res.render("dashboard", { username: req.session.username });
-});
-
 
 
 module.exports = router;
