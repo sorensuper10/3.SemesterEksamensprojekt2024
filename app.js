@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const userRoute = require("./routes/userRoute");
+const petRoutes = require("./routes/petRoutes");
 
 const port = process.env.PORT || 3000;
 const dbConnectionString = process.env.DB_CONNECTION_STRING;
@@ -33,6 +34,7 @@ mongoose.connect(dbConnectionString, {
 });
 
 app.use(userRoute);
+app.use(petRoutes);
 
 app.get("/", (req, res) => {
     res.render("index");

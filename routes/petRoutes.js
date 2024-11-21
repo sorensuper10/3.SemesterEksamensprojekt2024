@@ -9,3 +9,5 @@ router.post('/createPet',petController.createPet)
 router.post('/pet/:id',petController.updatePet)
 
 router.post('/pet/:id',petController.deletePet)
+
+module.exports = router;
