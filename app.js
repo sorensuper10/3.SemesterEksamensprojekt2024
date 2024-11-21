@@ -29,10 +29,7 @@ app.use(session({
 }));
 
 // Mongoose connection
-mongoose.connect(dbConnectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(dbConnectionString)
     .then(() => {
         console.log('Connected to MongoDB Atlas!');
     })
