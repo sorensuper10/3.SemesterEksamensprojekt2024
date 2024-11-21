@@ -49,6 +49,15 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard", { username: req.session.username });
 });
 
+app.get("/dashboardadmin", (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    res.render("dashboardadmin", { username: req.session.username });
+});
+
+
+
 app.listen(port, () => {
     console.log("Serveren kører på http://localhost:3000");
 });
