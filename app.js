@@ -26,7 +26,10 @@ app.use(session({
 }));
 
 // Mongoose connection
-mongoose.connect(dbConnectionString, {})
+mongoose.connect(dbConnectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
     .then(() => {
         console.log('Connected to MongoDB Atlas!');
     })
@@ -60,6 +63,7 @@ app.get("/dashboard", async (req, res) => {
         res.render("dashboard", {
             username: req.session.username,
             userCount: users.length,  // Antal brugere
+            animalCount: animals.length,  // Antal dyr
             animals: animals,
             activities: activities
         });
