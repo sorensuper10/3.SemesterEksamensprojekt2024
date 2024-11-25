@@ -28,7 +28,7 @@ exports.postCreateUser = async (req, res) => {
         const user = new User({ username, passwordHash });
         await user.save();
 
-        res.send("Brugeren er oprettet succesfuldt!");
+        res.render("login");
     } catch (error) {
         console.error("Fejl under oprettelse af bruger:", error);
         res.status(500).send("Der opstod en fejl. Prøv igen senere.");
