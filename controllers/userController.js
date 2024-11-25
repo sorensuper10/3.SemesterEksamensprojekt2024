@@ -85,3 +85,28 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).send("Error while getting all the users");
     }
 };
+
+// Update a user
+exports.updateUser = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, {
+            username: req.body.username,
+            password: req.body.password,
+        });
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error while updating the user");
+    }
+};
+
+// Delete user
+exports.deleteUser = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error while deleting user");
+    }
+};

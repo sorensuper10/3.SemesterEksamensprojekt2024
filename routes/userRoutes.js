@@ -22,4 +22,18 @@ router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
     res.render("dashboardadmin", { username: req.session.username });
 });
 
+//Route to edit an existing user
+router.get('/user/:id/edit', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.render('edit', {user});
+    } catch (err){
+        console.error(err);
+        res.status(500).send("Error while editing user");
+    }
+})
+
+router.post('/user/:id/update', userController.updateUser);
+router.post('/user/:id/delete', userController.deleteUser);
+
 module.exports = router;
