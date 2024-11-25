@@ -19,7 +19,7 @@ exports.createPet = async (req, res) => {
 exports.getAllPets = async (req, res) => {
     try {
         const pets =await Pet.find()
-        res.render('index', {pets})
+        res.render('adoption', {pets})
     } catch (error) {
         res.status(500).send("fejl ved hentning af kæledyr");
     }

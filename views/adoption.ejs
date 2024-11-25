@@ -98,12 +98,17 @@
 
     <!-- Animal Cards -->
     <div class="row" id="animalList">
-        <% animals.forEach(animal => { %>
-            <div class="col-md-4 animal-card" data-type="<%= animal.type %>">
-                <img src="<%= animal.image %>" alt="<%= animal.name %>">
-                <h3><%= animal.name %></h3>
-                <p><%= animal.description %></p>
-                <form action="/adopt/<%= animal.id %>" method="POST">
+        <% pets.forEach(pet => { %>
+            <div class="col-md-4 animal-card" data-type="<%= pet.animal %>">
+                <!-- Replace this with the actual image field if available -->
+                <img src="/images/default-animal.jpg" alt="<%= pet.name %>">
+                <h3><%= pet.name %></h3>
+                <p><strong>Type:</strong> <%= pet.animal %></p>
+                <p><strong>Race:</strong> <%= pet.race %></p>
+                <p><strong>Alder:</strong> <%= pet.age %> år</p>
+                <p><strong>Vægt:</strong> <%= pet.weight %> kg</p>
+                <p><%= pet.description %></p>
+                <form action="/adopt/<%= pet._id %>" method="POST">
                     <button type="submit" class="adopt-btn">Adopter</button>
                 </form>
             </div>
