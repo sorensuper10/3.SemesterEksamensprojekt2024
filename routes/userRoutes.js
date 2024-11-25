@@ -33,6 +33,8 @@ router.get('/user/:id/edit', async (req, res) => {
     }
 })
 
+router.get("/deleteuser", userController.deleteUser);
+
 router.post('/user/:id/update', userController.updateUser);
 router.post('/user/:id/delete', userController.deleteUser);
 

@@ -21,12 +21,9 @@ exports.postCreateUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, 10);
 
         // Opret og gem brugeren i databasen
-        const user = new User({
-            username,
-            passwordHash,
-        });
-
+        const user = new User({ username, passwordHash });
         await user.save();
+
         res.send("Brugeren er oprettet succesfuldt!");
     } catch (error) {
         console.error("Fejl under oprettelse af bruger:", error);
@@ -76,37 +73,61 @@ exports.checkRole = (role) => {
     };
 };
 
+// Hent alle brugere
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
-        res.render('dashboard', {users, userCount: users.length});
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error while getting all the users");
+        res.render("dashboard", { users, userCount: users.length });
+    } catch (error) {
+        console.error("Fejl under hentning af brugere:", error);
+        res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
 
-// Update a user
+// Opdater bruger
 exports.updateUser = async (req, res) => {
     try {
-        await User.findByIdAndUpdate(req.params.id, {
-            username: req.body.username,
-            password: req.body.password,
-        });
-        res.redirect('/');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error while updating the user");
+        const updates = { username: req.body.username };
+
+        // Hvis adgangskoden opdateres, hash den
+        if (req.body.password) {
+            updates.passwordHash = await bcrypt.hash(req.body.password, 10);
+        }
+
+        await User.findByIdAndUpdate(req.params.id, updates);
+        res.redirect("/");
+    } catch (error) {
+        console.error("Fejl under opdatering af bruger:", error);
+        res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
 
-// Delete user
+// Slet bruger (egen konto eller admin-sletning)
 exports.deleteUser = async (req, res) => {
     try {
-        await User.findByIdAndDelete(req.params.id);
-        res.redirect('/');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error while deleting user");
+        const userId = req.params.id || req.session.userId;
+
+        if (!userId) {
+            return res.status(400).send("Ingen bruger at slette.");
+        }
+
+        await User.findByIdAndDelete(userId);
+
+        if (req.session.userId === userId) {
+            // Sletning af egen konto
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error("Fejl ved sletning af session:", err);
+                    return res.status(500).send("Noget gik galt. Prøv igen senere.");
+                }
+                res.redirect("/");
+            });
+        } else {
+            // Admin sletter en anden bruger
+            res.redirect("/dashboardadmin");
+        }
+    } catch (error) {
+        console.error("Fejl under sletning af bruger:", error);
+        res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
