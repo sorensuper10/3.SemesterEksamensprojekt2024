@@ -42,9 +42,41 @@ form {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 500px;
-    animation: fadeIn 0.5s ease-in-out;
     overflow-y: auto; /* Allow scrolling within the form if content is too tall */
 }
+
+/* Dropdown (select) styles */
+select {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #2c3e50;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select:hover {
+    background-color: #f8f9fa;
+}
+
+/* Label styling for consistency */
+label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
 
 /* Form labels and inputs */
 label {
