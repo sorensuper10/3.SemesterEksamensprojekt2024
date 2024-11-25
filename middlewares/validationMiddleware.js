@@ -5,5 +5,3 @@ exports.validatePet = (req, res, next) => {
     }
     next();
 };
-
-
