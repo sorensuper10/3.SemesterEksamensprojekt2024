@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 
-// Vis opret bruger formular
+// Opret brugerformular (vis)
 exports.getCreateUser = (req, res) => {
     res.render("create-user");
 };
 
-exports.getUpdateUser = (req, res) => {
+exports.getEditUser = (req, res) => {
     res.render("edit-user");
 }
 
@@ -77,7 +77,7 @@ exports.checkRole = (role) => {
     };
 };
 
-// Hent alle brugere
+// Hent alle brugere (for dashboard)
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
@@ -88,20 +88,35 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+// Vis opret brugerformular
+exports.getEditUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send("Brugeren blev ikke fundet");
+        }
+        res.render("edit-user", { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Fejl ved hentning af bruger til opdatering");
+    }
+};
+
 // Opdater bruger
 exports.updateUser = async (req, res) => {
     try {
-        const updates = { username: req.body.username };
+        const { username, password } = req.body;
+        const updates = { username };
 
-        // Hvis adgangskoden opdateres, hash den
-        if (req.body.password) {
-            updates.passwordHash = await bcrypt.hash(req.body.password, 10);
+        // Hvis adgangskoden er angivet, hash den
+        if (password) {
+            updates.passwordHash = await bcrypt.hash(password, 10);
         }
 
-        await User.findByIdAndUpdate(req.params.id, updates);
-        res.redirect("/");
+        const user = await User.findByIdAndUpdate(req.params.id, updates);
+        res.redirect("/dashboard"); // Eller en anden passende rute
     } catch (error) {
-        console.error("Fejl under opdatering af bruger:", error);
+        console.error("Fejl ved opdatering af bruger:", error);
         res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
@@ -124,7 +139,7 @@ exports.deleteUser = async (req, res) => {
                     console.error("Fejl ved sletning af session:", err);
                     return res.status(500).send("Noget gik galt. Prøv igen senere.");
                 }
-                res.redirect("/");
+                res.redirect("/login"); // Efter login-sletning
             });
         } else {
             // Admin sletter en anden bruger

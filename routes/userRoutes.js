@@ -9,10 +9,14 @@ const { checkRole } = userController;
 router.get("/login", (req, res) => {
     res.render("login");
 });
+
+// Login handling
 router.post("/login", userController.login);
 
 // Registreringsside og handling
-router.get("/create-user", (req, res) => res.render("create-user"));
+router.get("/create-user", (req, res) => {
+    res.render("create-user");
+});
 router.post("/create-user", userController.postCreateUser);
 
 // Log ud
@@ -23,25 +27,28 @@ router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
     res.render("dashboardadmin", { username: req.session.username });
 });
 
-// Route for at vise siden til at redigere brugerinfo (GET)
+// Rute til at vise formular for at redigere en bruger
 router.get('/user/:id/edit', async (req, res) => {
     try {
-        // Find bruger baseret på ID og send data til formularen
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id); // Find brugeren ved ID
+        if (!user) {
+            return res.status(404).send('Brugeren blev ikke fundet');
+        }
+        // Sender brugerdata til EJS
         res.render('edit-user', { user });
     } catch (err) {
         console.error(err);
-        res.status(500).send("Fejl under hentning af brugerdata til redigering");
+        res.status(500).send("Fejl ved hentning af bruger til opdatering");
     }
 });
 
-// Route for at opdatere brugerinfo (POST)
+// Rute for at opdatere brugerinfo (POST)
 router.post('/user/:id/edit', userController.updateUser);
 
 // Rute for at slette bruger (POST)
 router.post('/user/:id/delete', userController.deleteUser);
 
-// Route for at hente alle brugere (kan bruges til admins)
+// Route for at hente alle brugere (kun for admins)
 router.get("/all-users", checkRole("admin"), async (req, res) => {
     try {
         const users = await User.find();
@@ -49,6 +56,20 @@ router.get("/all-users", checkRole("admin"), async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Fejl under hentning af alle brugere");
+    }
+});
+
+// Rute for at vise en enkel bruger (til admins eller selvvisning)
+router.get("/user/:id", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send("Brugeren blev ikke fundet");
+        }
+        res.render("user-detail", { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Fejl ved hentning af bruger");
     }
 });
 
