@@ -1,5 +1,6 @@
 const express = require("express");
 const userController = require("../controllers/userController");
+const User = require("../models/userModel");
 
 const router = express.Router();
 const { checkRole } = userController;
@@ -22,20 +23,33 @@ router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
     res.render("dashboardadmin", { username: req.session.username });
 });
 
-//Route to edit an existing user
+// Route for at vise siden til at redigere brugerinfo (GET)
 router.get('/user/:id/edit', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
-        res.render('edit', {user});
-    } catch (err){
+        // Find bruger baseret på ID og send data til formularen
+        const user = await User.findById(req.params.id);
+        res.render('edit-user', { user });
+    } catch (err) {
         console.error(err);
-        res.status(500).send("Error while editing user");
+        res.status(500).send("Fejl under hentning af brugerdata til redigering");
     }
-})
+});
 
-router.get("/deleteuser", userController.deleteUser);
+// Route for at opdatere brugerinfo (POST)
+router.post('/user/:id/edit', userController.updateUser);
 
-router.post('/user/:id/update', userController.updateUser);
+// Rute for at slette bruger (POST)
 router.post('/user/:id/delete', userController.deleteUser);
+
+// Route for at hente alle brugere (kan bruges til admins)
+router.get("/all-users", checkRole("admin"), async (req, res) => {
+    try {
+        const users = await User.find();
+        res.render("all-users", { users });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Fejl under hentning af alle brugere");
+    }
+});
 
 module.exports = router;

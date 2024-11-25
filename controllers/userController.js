@@ -6,6 +6,10 @@ exports.getCreateUser = (req, res) => {
     res.render("create-user");
 };
 
+exports.getUpdateUser = (req, res) => {
+    res.render("edit-user");
+}
+
 // Håndter oprettelse af bruger
 exports.postCreateUser = async (req, res) => {
     const { username, password } = req.body;
