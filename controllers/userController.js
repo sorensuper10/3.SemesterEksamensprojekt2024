@@ -106,20 +106,26 @@ exports.getEditUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const updates = { username };
+        const updates = { username };  // Vi opdaterer brugernavnet.
 
-        // Hvis adgangskoden er angivet, hash den
+        // Hvis adgangskoden er angivet, hash den og opdater den
         if (password) {
             updates.passwordHash = await bcrypt.hash(password, 10);
         }
 
-        const user = await User.findByIdAndUpdate(req.params.id, updates);
+        const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true });
+
+        if (!user) {
+            return res.status(404).send("Brugeren blev ikke fundet");
+        }
+
         res.redirect("/dashboard"); // Eller en anden passende rute
     } catch (error) {
         console.error("Fejl ved opdatering af bruger:", error);
         res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
+
 
 // Slet bruger (egen konto eller admin-sletning)
 exports.deleteUser = async (req, res) => {

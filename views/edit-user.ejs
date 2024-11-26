@@ -10,7 +10,7 @@
 <body>
 <div class="container mt-5">
     <h2>Rediger Brugerinfo</h2>
-    <form action="/user/<%= user._id %>/update" method="POST">
+    <form action="/user/<%= user._id %>/edit" method="POST">
         <!-- Brugerens nuværende brugernavn -->
         <div class="mb-3">
             <label for="username" class="form-label">Brugernavn</label>
@@ -20,7 +20,7 @@
         <!-- Brugerens adgangskode -->
         <div class="mb-3">
             <label for="password" class="form-label">Adgangskode</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Indtast ny adgangskode" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Indtast ny adgangskode (hvis du vil ændre den)">
         </div>
 
         <!-- Opdater knap -->

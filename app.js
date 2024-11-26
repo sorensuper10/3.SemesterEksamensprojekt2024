@@ -72,6 +72,24 @@ app.get("/dashboard", async (req, res) => {
     }
 });
 
+// Route for displaying the edit-user form (for the logged-in user)
+app.get("/edit-user", async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");  // Redirect to login if no user is logged in
+    }
+
+    try {
+        const user = await User.findById(req.session.userId);  // Find the current logged-in user
+        if (!user) {
+            return res.status(404).send("Brugeren blev ikke fundet.");
+        }
+        res.render("edit-user", { user });  // Render the edit-user form with current user data
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Fejl ved hentning af bruger til opdatering.");
+    }
+});
+
 app.listen(port, () => {
     console.log("Serveren kører på http://localhost:3000");
 });
