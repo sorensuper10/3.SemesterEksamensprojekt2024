@@ -105,7 +105,7 @@
                 <p><strong>Alder:</strong> <%= pet.age %> år</p>
                 <p><strong>Vægt:</strong> <%= pet.weight %> kg</p>
                 <p><%= pet.description %></p>
-                <form action="/adopt/<%= pet._id %>" method="POST">
+                <form action="/adoption/<%= pet._id %>" method="POST">
                     <button type="submit" class="adopt-btn">Adopter</button>
                 </form>
             </div>
