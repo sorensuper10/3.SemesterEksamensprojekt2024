@@ -12,4 +12,7 @@ router.post('/pet/:id', validatePet, petController.updatePet)
 
 router.post('/pet/:id',petController.deletePet)
 
+router.post('/adoption/:id',petController.adoptPet);
+
+
 module.exports = router;
