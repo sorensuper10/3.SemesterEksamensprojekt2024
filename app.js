@@ -52,7 +52,7 @@ app.get("/dashboard", async (req, res) => {
 
     try {
         const users = await User.find();  // Hent alle brugere
-        const animals = await Animal.find();  // Hent alle dyr
+        const animals = await Animal.find({ userId: { $exists: false } });  // Hent alle dyr
         const activities = [
             "Ny hund oprettet: Bella (2 år)",
             "Ny bruger oprettet: John Doe",
