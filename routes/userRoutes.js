@@ -51,15 +51,8 @@ router.post('/user/:id/edit', userController.updateUser);
 router.post('/user/:id/delete', userController.deleteUser);
 
 // Route for at hente alle brugere (kun for admins)
-router.get("/all-users", checkRole("admin"), async (req, res) => {
-    try {
-        const users = await User.find();
-        res.render("all-users", {users});
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Fejl under hentning af alle brugere");
-    }
-});
+router.get("/allUsers", checkRole("admin"), userController.viewAllUsers);
+
 
 // Rute for at vise en enkel bruger (til admins eller selvvisning)
 router.get("/user/:id", async (req, res) => {

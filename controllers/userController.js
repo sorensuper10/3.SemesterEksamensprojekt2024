@@ -150,3 +150,13 @@ exports.deleteUser = async (req, res) => {
         res.status(500).send("Noget gik galt. Prøv igen senere.");
     }
 };
+
+exports.viewAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.render("allUsers", { users, userCount: users.length });
+    } catch (error) {
+        console.error("Fejl under hentning af brugere:", error);
+        res.status(500).send("Noget gik galt. Prøv igen senere.");
+    }
+}
