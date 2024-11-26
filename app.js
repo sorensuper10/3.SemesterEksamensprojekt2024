@@ -57,18 +57,30 @@ app.get("/dashboard", async (req, res) => {
             "Ny hund oprettet: Bella (2 år)",
             "Ny bruger oprettet: John Doe",
             "Adoption: Simba er blevet adopteret!"
-        ];  // Aktiviteter, som du kan hente dynamisk senere
+        ];  // Aktiviteter
 
-        res.render("dashboard", {
-            username: req.session.username,
-            userCount: users.length,  // Antal brugere
-            animalCount: animals.length,  // Antal dyr
-            animals: animals,
-            activities: activities
-        });
+        // Hvis brugerens rolle er admin, vis admin-dashboard, ellers vis bruger-dashboard
+        if (req.session.role === 'admin') {
+            res.render("dashboardadmin", {
+                username: req.session.username,
+                userCount: users.length,  // Antal brugere
+                animalCount: animals.length,  // Antal dyr
+                animals: animals,
+                activities: activities
+            });
+        } else {
+            res.render("dashboard", {
+                username: req.session.username,
+                userCount: users.length,  // Antal brugere
+                animalCount: animals.length,  // Antal dyr
+                animals: animals,
+                activities: activities
+            });
+        }
+
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error while getting data for the dashboard");
+        res.status(500).send("Fejl under hentning af data til dashboard");
     }
 });
 

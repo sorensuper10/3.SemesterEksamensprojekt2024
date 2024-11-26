@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const User = require("../models/userModel");
+const Pet = require("../models/petModel");
 
 const router = express.Router();
 const {checkRole} = userController;
@@ -25,8 +26,27 @@ router.get("/deleteuser", userController.deleteUser);
 router.get("/logout", userController.logout);
 
 // Admin-dashboard (kun for admins)
-router.get("/dashboardadmin", checkRole("admin"), (req, res) => {
-    res.render("dashboardadmin", {username: req.session.username});
+router.get("/dashboardadmin", checkRole("admin"), async (req, res) => {
+    try {
+        const users = await User.find();  // Hent alle brugere
+        const animals = await Pet.find();  // Hent alle dyr
+        const activities = [
+            "Ny hund oprettet: Bella (2 år)",
+            "Ny bruger oprettet: John Doe",
+            "Adoption: Simba er blevet adopteret!"
+        ];  // Aktiviteter
+
+        res.render("dashboardadmin", {
+            username: req.session.username,
+            userCount: users.length,  // Antal brugere
+            animalCount: animals.length,  // Antal dyr
+            animals: animals,
+            activities: activities
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Fejl under hentning af data til admin-dashboard");
+    }
 });
 
 // Rute til at vise formular for at redigere en bruger
