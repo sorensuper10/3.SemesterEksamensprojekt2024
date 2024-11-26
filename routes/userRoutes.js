@@ -29,7 +29,7 @@ router.get("/logout", userController.logout);
 router.get("/dashboardadmin", checkRole("admin"), async (req, res) => {
     try {
         const users = await User.find();  // Hent alle brugere
-        const animals = await Pet.find();  // Hent alle dyr
+        const animals = await Pet.find({ userId: { $exists: false } });  // Hent alle dyr
         const activities = [
             "Ny hund oprettet: Bella (2 år)",
             "Ny bruger oprettet: John Doe",

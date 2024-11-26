@@ -47,9 +47,6 @@ exports.login = async (req, res) => {
             req.session.username = user.username;
             req.session.role = user.role;
 
-            if (user.role === "admin") {
-                return res.redirect("/dashboardadmin");
-            }
             return res.redirect("/dashboard");
         }
 
