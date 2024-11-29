@@ -1,4 +1,5 @@
 const Pet = require('../models/petModel');
+const User = require("../models/userModel");
 
 exports.createPet = async (req, res) => {
     try {
@@ -26,6 +27,16 @@ exports.getAllPets = async (req, res) => {
     }
 }
 
+exports.viewAllPets = async (req, res) => {
+    try {
+        const pets = await Pet.find();
+        res.render("allPets", { pets, petCount: pets.length });
+    } catch (error) {
+        console.error("Fejl under hentning af dyr:", error);
+        res.status(500).send("Noget gik galt. Prøv igen senere.");
+    }
+}
+
 
 exports.getPetById = async (req, res) => {
     try {
@@ -47,7 +58,7 @@ exports.updatePet = async (req, res) => {
             description: req.body.description,
             userId: req.body.userId,
         })
-        res.redirect('/')
+        res.redirect('/allPets')
     } catch (error) {
         res.status(500).send("fejl ved opdatering af post");
     }
@@ -85,7 +96,7 @@ exports.adoptPet = async (req, res) => {
 exports.deletePet = async (req, res) => {
     try {
         await Pet.findByIdAndDelete(req.params.id);
-        res.redirect('/');
+        res.redirect('/allPets');
     } catch (error) {
         res.status(500).send("fejl ved sletning af pet");
     }

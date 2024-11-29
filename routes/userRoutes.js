@@ -1,5 +1,6 @@
 const express = require("express");
 const userController = require("../controllers/userController");
+const petController = require("../controllers/petController");
 const User = require("../models/userModel");
 const Pet = require("../models/petModel");
 
@@ -73,6 +74,8 @@ router.post('/user/:id/delete', userController.deleteUser);
 // Route for at hente alle brugere (kun for admins)
 router.get("/allUsers", checkRole("admin"), userController.viewAllUsers);
 
+// Route for at hente all dyr (kun for admins)
+router.get("/allPets", checkRole("admin"), petController.viewAllPets);
 
 // Rute for at vise en enkel bruger (til admins eller selvvisning)
 router.get("/user/:id", async (req, res) => {

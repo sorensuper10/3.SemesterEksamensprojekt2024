@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rediger Kæledyr</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Rediger Kæledyr</h1>
+    <form action="/editPet/<%= pet.id %>" method="POST">
+        <div class="mb-3">
+            <label for="animal" class="form-label">Dyr</label>
+            <input type="text" class="form-control" id="animal" name="animal" value="<%= pet.animal %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="race" class="form-label">Race</label>
+            <input type="text" class="form-control" id="race" name="race" value="<%= pet.race %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Navn</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= pet.name %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Alder</label>
+            <input type="number" class="form-control" id="age" name="age" value="<%= pet.age %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="weight" class="form-label">Vægt</label>
+            <input type="number" class="form-control" id="weight" name="weight" value="<%= pet.weight %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Beskrivelse</label>
+            <textarea class="form-control" id="description" name="description" required><%= pet.description %></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="ownerId" class="form-label">ID på ejeren</label>
+            <input type="text" class="form-control" id="ownerId" name="ownerId" value="<%= pet.owner %>">
+        </div>
+        <button type="submit" class="btn btn-success">Gem</button>
+        <a href="/allPets" class="btn btn-secondary">Annuller</a>
+    </form>
+</div>
+</body>
+</html>
