@@ -1,5 +1,4 @@
 const Pet = require('../models/petModel');
-const User = require("../models/userModel");
 
 exports.createPet = async (req, res) => {
     try {
@@ -96,9 +95,6 @@ exports.adoptPet = async (req, res) => {
         res.status(500).send("Something went wrong while adopting the pet.");
     }
 };
-
-
-
 
 exports.deletePet = async (req, res) => {
     try {

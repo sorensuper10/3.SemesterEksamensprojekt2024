@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const userModel = require('../models/userModel');  // This import is fine, but we don't need to use `userModel` directly in the ref.
 
 const petSchema = new mongoose.Schema({
     animal: { type: String, required: true },

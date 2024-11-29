@@ -1,7 +1,6 @@
 const express = require("express");
 const petController = require("../controllers/petController");
 const {validatePet} = require("../middlewares/validationMiddleware");
-const User = require("../models/userModel");
 const Pet = require("../models/petModel");
 const router = express.Router();
 
@@ -31,6 +30,5 @@ router.post('/editPet/:id', validatePet, petController.updatePet)
 router.post('/deletePet/:id',petController.deletePet)
 
 router.post('/adoption/:id',petController.adoptPet);
-
 
 module.exports = router;
