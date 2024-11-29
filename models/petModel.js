@@ -8,7 +8,7 @@ const petSchema = new mongoose.Schema({
     age: { type: Number, required: true },
     weight: { type: Number, required: true },
     description: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }  // Use 'User' as a string
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }  // Use 'User' as a string
 });
 
 module.exports = mongoose.model("Pet", petSchema);

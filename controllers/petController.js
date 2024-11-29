@@ -12,7 +12,7 @@ exports.createPet = async (req, res) => {
             description: req.body.description,
         });
         await newPet.save();
-        res.redirect('/');
+        res.redirect('/dashboardadmin');
     }catch (error) {
     res.status(500).send('fejl ved oprettelse af kæledyr');}
 }
