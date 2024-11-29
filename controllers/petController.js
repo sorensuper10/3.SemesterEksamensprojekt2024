@@ -27,15 +27,22 @@ exports.getAllPets = async (req, res) => {
     }
 }
 
+
 exports.viewAllPets = async (req, res) => {
     try {
-        const pets = await Pet.find();
-        res.render("allPets", { pets, petCount: pets.length });
+        const pets = await Pet.find()
+            .populate('userId', 'username')  // Sørg for at populere med 'name' fra User
+            .exec();
+
+        const petCount = pets.length;
+
+        // Renderer siden og sender pet- og petCount data til viewet
+        res.render('allPets', { pets, petCount });
     } catch (error) {
-        console.error("Fejl under hentning af dyr:", error);
-        res.status(500).send("Noget gik galt. Prøv igen senere.");
+        console.error(error);
+        res.status(500).send("Der opstod en fejl.");
     }
-}
+};
 
 
 exports.getPetById = async (req, res) => {

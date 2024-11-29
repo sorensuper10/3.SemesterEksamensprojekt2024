@@ -95,7 +95,7 @@
 <div class="sidebar">
     <h3 class="text-center">Dyreinternat Dashboard Admin</h3>
     <a href="/dashboardadmin">Hjem</a>
-    <a href="/allUsers" class="active">Brugere</a>
+    <a href="/allUsers">Brugere</a>
     <a href="/allPets" class="active">Dyr</a>
 </div>
 
@@ -117,7 +117,7 @@
                     <th>Alder</th>
                     <th>Vægt</th>
                     <th>Beskrivelse</th>
-                    <th>ID på ejeren</th>
+                    <th>Navn på ejeren</th>
                     <th>Handlinger</th>
                 </tr>
                 </thead>
@@ -131,7 +131,7 @@
                             <td><%= pet.age %></td>
                             <td><%= pet.weight %></td>
                             <td><%= pet.description %></td>
-                            <td><%= pet.ownerId || "Ikke angivet" %></td>
+                            <td><%= pet.userId ? pet.userId.username : 'Ukendt' %></td>
                             <td>
                                 <!-- Edit Button -->
                                 <a href="/editPet/<%= pet._id %>" class="btn btn-primary btn-sm">Rediger</a>

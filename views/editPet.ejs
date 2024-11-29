@@ -34,10 +34,7 @@
             <label for="description" class="form-label">Beskrivelse</label>
             <textarea class="form-control" id="description" name="description" required><%= pet.description %></textarea>
         </div>
-        <div class="mb-3">
-            <label for="ownerId" class="form-label">ID på ejeren</label>
-            <input type="text" class="form-control" id="ownerId" name="ownerId" value="<%= pet.owner %>">
-        </div>
+        <!-- Fjernet ID på ejeren felt -->
         <button type="submit" class="btn btn-success">Gem</button>
         <a href="/allPets" class="btn btn-secondary">Annuller</a>
     </form>
