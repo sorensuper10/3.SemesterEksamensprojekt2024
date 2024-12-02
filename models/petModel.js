@@ -7,6 +7,7 @@ const petSchema = new mongoose.Schema({
     age: { type: Number, required: true },
     weight: { type: Number, required: true },
     description: { type: String, required: true },
+    image: { type: String, required: false } , // Billede kan være valgfrit
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }  // Use 'User' as a string
 });
 

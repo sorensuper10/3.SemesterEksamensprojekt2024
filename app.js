@@ -15,10 +15,12 @@ const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
 const app = express();
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use(session({
     secret: "hemmeligNøgle",
@@ -101,6 +103,8 @@ app.get("/edit-user", async (req, res) => {
         res.status(500).send("Fejl ved hentning af bruger til opdatering.");
     }
 });
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.listen(port, () => {
     console.log("Serveren kører på http://localhost:3000");

@@ -98,7 +98,7 @@
         <% pets.forEach(pet => { %>
             <div class="col-md-4 animal-card" data-type="<%= pet.animal %>">
                 <!-- Replace this with the actual image field if available -->
-                <img src="/images/default-animal.jpg" alt="<%= pet.name %>">
+                <img src="<%= pet.image ? pet.image : '/images/default-animal.jpg' %>" alt="<%= pet.name %>">
                 <h3><%= pet.name %></h3>
                 <p><strong>Type:</strong> <%= pet.animal %></p>
                 <p><strong>Race:</strong> <%= pet.race %></p>

@@ -2,6 +2,9 @@ const Pet = require('../models/petModel');
 
 exports.createPet = async (req, res) => {
     try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
+        }
         const newPet = new Pet({
             animal: req.body.animal,
             race: req.body.race,
@@ -9,6 +12,8 @@ exports.createPet = async (req, res) => {
             age: req.body.age,
             weight: req.body.weight,
             description: req.body.description,
+            image: req.file ? '/uploads/' + req.file.filename : null // Stien til billedet
+
         });
         await newPet.save();
         res.redirect('/dashboardadmin');
