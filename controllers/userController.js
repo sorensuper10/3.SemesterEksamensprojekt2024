@@ -157,9 +157,21 @@ exports.deleteUser = async (req, res) => {
 exports.viewAllUsers = async (req, res) => {
     try {
         const users = await User.find();
-        res.render("allUsers", { users, userCount: users.length });
+
+        // Hvis anmodningen er fra en browser, render HTML
+        if (req.accepts("html")) {
+            return res.render("allUsers", { users, userCount: users.length });
+        }
+
+        // Hvis anmodningen er fra et API, returner JSON
+        if (req.accepts("json")) {
+            return res.status(200).json({ users, userCount: users.length });
+        }
+
+        // Hvis en anden type anmodning, send fejl
+        res.status(406).send("Ugyldigt accept header. Kun HTML eller JSON understøttes.");
     } catch (error) {
         console.error("Fejl under hentning af brugere:", error);
-        res.status(500).send("Noget gik galt. Prøv igen senere.");
+        res.status(500).json({ message: "Noget gik galt. Prøv igen senere." });
     }
-}
+};

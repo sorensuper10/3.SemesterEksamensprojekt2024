@@ -15,18 +15,19 @@ const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
 const app = express();
 
-
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());  // For at håndtere JSON-anmodninger
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-
+// Session setup
 app.use(session({
     secret: "hemmeligNøgle",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: { secure: process.env.NODE_ENV === "production" }
 }));
 
 // Mongoose connection
@@ -39,9 +40,61 @@ mongoose.connect(dbConnectionString)
         process.exit(1);  // Stop appen, hvis der er fejl
     });
 
+// API Ruter for User
+app.get("/api/users", async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: "Fejl ved hentning af brugere" });
+    }
+});
+
+app.post("/api/users", async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: "Alle felter skal udfyldes." });
+    }
+
+    try {
+        const newUser = new User({ username, email, password });
+        await newUser.save();
+        res.status(201).json(newUser);
+    } catch (err) {
+        res.status(500).json({ error: "Fejl ved oprettelse af bruger" });
+    }
+});
+
+// API Ruter for Animal
+app.get("/api/animals", async (req, res) => {
+    try {
+        const animals = await Animal.find();
+        res.status(200).json(animals);
+    } catch (err) {
+        res.status(500).json({ error: "Fejl ved hentning af dyr" });
+    }
+});
+
+app.post("/api/animals", async (req, res) => {
+    const { name, species, age, favoriteFood } = req.body;
+    if (!name || !species || !age || !favoriteFood) {
+        return res.status(400).json({ error: "Alle felter skal udfyldes." });
+    }
+
+    try {
+        const newAnimal = new Animal({ name, species, age, favoriteFood });
+        await newAnimal.save();
+        res.status(201).json(newAnimal);
+    } catch (err) {
+        res.status(500).json({ error: "Fejl ved oprettelse af dyr" });
+    }
+});
+
+// Routes for user-related pages
 app.use(userRoute);
 app.use(petRoutes);
 
+// Route for the home page
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -103,9 +156,11 @@ app.get("/edit-user", async (req, res) => {
         res.status(500).send("Fejl ved hentning af bruger til opdatering.");
     }
 });
+
+// Route for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
+// Start the server
 app.listen(port, () => {
-    console.log("Serveren kører på http://localhost:3000");
+    console.log(`Serveren kører på http://localhost:${port}`);
 });
