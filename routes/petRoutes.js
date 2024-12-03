@@ -23,6 +23,19 @@ router.get('/editPet/:id', async (req, res) => {
     }
 });
 
+router.get('/pets/:id/image', async (req, res) => {
+    try {
+        const pet = await Pet.findById(req.params.id);
+        if (!pet || !pet.image) {
+            return res.status(404).send('Image not found');
+        }
+        res.set('Content-Type', pet.imageType);
+        res.send(pet.image);
+    } catch (err) {
+        res.status(500).send('Fejl ved hentning af billede');
+    }
+});
+
 router.get('/deletePet', petController.deletePet);
 
 router.post('/editPet/:id', validatePet, petController.updatePet)

@@ -5,6 +5,7 @@ exports.createPet = async (req, res) => {
         if (!req.file) {
             return res.status(400).json({ message: 'Image file is required' });
         }
+
         const newPet = new Pet({
             animal: req.body.animal,
             race: req.body.race,
@@ -13,13 +14,15 @@ exports.createPet = async (req, res) => {
             weight: req.body.weight,
             description: req.body.description,
             image: req.file ? '/uploads/' + req.file.filename : null // Stien til billedet
-
         });
+
         await newPet.save();
         res.redirect('/dashboardadmin');
-    }catch (error) {
-    res.status(500).send('fejl ved oprettelse af kæledyr');}
-}
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Fejl ved oprettelse af kæledyr');
+    }
+};
 
 exports.getAllPets = async (req, res) => {
     try {
@@ -77,29 +80,26 @@ exports.updatePet = async (req, res) => {
 
 exports.adoptPet = async (req, res) => {
     try {
-        const userId = req.session.userId;  // Get userId from session
-
-        // Find the pet by ID
-        const pet = await Pet.findById(req.params.id);
-
-        if (!pet) {
-            return res.status(404).send("Pet not found");
+        const userId = req.session.userId;
+        if (!userId) {
+            return res.status(403).send("Du skal være logget ind for at adoptere.");
         }
-
-        // Update the pet's userId to mark it as adopted by the current user
+        const pet = await Pet.findById(req.params.id);
+        if (!pet) {
+            return res.status(404).send("Dyret blev ikke fundet.");
+        }
+        if (pet.userId) {
+            return res.status(400).send("Dette dyr er allerede adopteret.");
+        }
         pet.userId = userId;
-
-        // Optionally, if you need to set any other fields (like pet_id), do it here:
-        // pet.pet_id = req.body._id;
-
-        await pet.save(); // Save the changes
-
-        res.redirect("/adoption"); // Redirect to adoption page after success
+        await pet.save();
+        res.redirect("/myadoptions");
     } catch (error) {
-        console.error("Error adopting pet:", error);
-        res.status(500).send("Something went wrong while adopting the pet.");
+        console.error("Fejl under adoption:", error);
+        res.status(500).send("Noget gik galt under adoptionen.");
     }
 };
+
 
 exports.deletePet = async (req, res) => {
     try {

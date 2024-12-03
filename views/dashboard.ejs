@@ -108,7 +108,8 @@
 <div class="sidebar">
     <h3 class="text-center">Dyreinternat Dashboard</h3>
     <a href="#">Hjem</a>
-    <a href="/adoption">Adoption</a> <!-- Direkte href til adoption.ejs-->
+    <a href="/adoption">Adoption</a>
+    <a href="/myadoptions">Mine adoptioner</a>
 </div>
 
 <!-- Content -->
@@ -118,14 +119,9 @@
     <!-- Statistics -->
     <div class="stats-container">
         <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <h4>Antal Brugere</h4>
-            <p id="userCount"><%= userCount %></p>
-        </div>
-        <div class="stat-card">
             <i class="fas fa-paw"></i>
             <h4>Antal Dyr</h4>
-            <p id="animalCount"><%= animalCount %></p> <!-- Vis antal dyr -->
+            <p id="animalCount"><%= animalCount %></p>
         </div>
     </div>
 
@@ -141,20 +137,6 @@
                 </div>
             </div>
         <% }); %>
-    </div>
-
-    <!-- Latest Activities -->
-    <div class="card">
-        <div class="card-header">
-            Seneste Aktivitet
-        </div>
-        <div class="card-body">
-            <ul>
-                <% activities.forEach(activity => { %>
-                    <li><%= activity %></li>
-                <% }); %>
-            </ul>
-        </div>
     </div>
 
     <!-- Logout and Delete Account Buttons -->

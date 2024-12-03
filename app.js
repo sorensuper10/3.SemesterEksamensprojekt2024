@@ -157,6 +157,25 @@ app.get("/edit-user", async (req, res) => {
     }
 });
 
+app.get('/myadoptions', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Antag at sessionen gemmer userId
+        if (!userId) {
+            return res.redirect('/login');
+        }
+
+        // Hent adoptioner fra databasen baseret på userId
+        const userAdoptions = await Animal.find({ userId }); // Brug Pet her
+
+        res.render('myadoptions', { username: req.session.username, userAdoptions });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Noget gik galt!");
+    }
+});
+
+
+
 // Route for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
