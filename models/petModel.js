@@ -7,7 +7,7 @@ const petSchema = new mongoose.Schema({
     age: { type: Number, required: true },
     weight: { type: Number, required: true },
     description: { type: String, required: true },
-    image: { type: Buffer, required: false },  // Buffer for binære data
+    image: { type: Buffer, required: true },  // Buffer for binære data
     imageType: { type: String, required: false },  // Mimetype for billedet
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }
 });
