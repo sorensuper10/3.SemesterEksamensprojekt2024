@@ -174,8 +174,6 @@ app.get('/myadoptions', async (req, res) => {
     }
 });
 
-
-
 // Route for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -183,3 +181,5 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, () => {
     console.log(`Serveren kører på http://localhost:${port}`);
 });
+
+module.exports = app;
