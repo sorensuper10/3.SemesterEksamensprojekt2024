@@ -50,6 +50,7 @@
         }
         .stat-card {
             background-color: #007bff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             color: white;
             padding: 20px;
             margin: 10px;
@@ -62,25 +63,35 @@
             font-size: 40px;
             margin-bottom: 10px;
         }
-        .logout-btn, .delete-account-btn {
+        .logout-btn, .delete-account-btn, .edit-btn{
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             margin-right: 10px;
         }
         .logout-btn {
-            background-color: #ff4d4d;
-            color: white;
-        }
-        .logout-btn:hover {
-            background-color: #e60000;
-        }
-        .delete-account-btn {
             background-color: #ff851b;
             color: white;
         }
-        .delete-account-btn:hover {
+        .logout-btn:hover {
             background-color: #e67e22;
+        }
+        .delete-account-btn {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        .delete-account-btn:hover {
+            background-color: #e60000;
+        }
+
+        .edit-btn
+        {
+            background-color: #37ac01;
+            color: white;
+        }
+        .edit-btn:hover {
+            background-color: #309100;
         }
         .animal-card {
             text-align: center;
@@ -88,7 +99,8 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
         }
         .animal-card img {
             max-width: 100%;
@@ -142,7 +154,7 @@
     <!-- Logout and Delete Account Buttons -->
     <a href="/logout" class="logout-btn">Log ud</a>
     <a href="/deleteuser" class="delete-account-btn" onclick="return confirm('Er du sikker på, at du vil slette din konto? Dette kan ikke fortrydes.');">Slet konto</a>
-    <a href="/edit-user" class="logout-btn">Ændre brugerinfo</a>
+    <a href="/edit-user" class="edit-btn">Ændre brugerinfo</a>
 </div>
 </body>
 </html>
