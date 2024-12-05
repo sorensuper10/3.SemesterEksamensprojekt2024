@@ -55,7 +55,7 @@ describe('PUT /users/:id', () => {
         };
 
         chai.request(server)
-            .put('/users/999999999999999999999999')  // Brug en ID, der ikke findes i databasen
+            .put('/users/999')  // Brug en ID, der ikke findes i databasen
             .send(updatedUser)
             .end((err, res) => {
                 res.should.have.status(404);
