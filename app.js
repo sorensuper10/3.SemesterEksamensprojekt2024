@@ -183,3 +183,5 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, () => {
     console.log(`Serveren kører på http://localhost:${port}`);
 });
+
+module.exports = app;

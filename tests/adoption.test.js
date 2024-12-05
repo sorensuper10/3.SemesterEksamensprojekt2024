@@ -1,8 +1,11 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
+const User = require('../models/userModel');
+
 
 chai.use(chaiHttp);
+chai.should();
 
 describe('Adoption API', () => {
 
@@ -12,8 +15,8 @@ describe('Adoption API', () => {
     describe('POST /create-user', () => {
         it('should POST a new user', (done) => {
             const newUser = {
-                username: "Soren",
-                password: "1234",
+                username: "slkdf1",
+                password: "12323214",
                 role: "user",  // Sørg for at alle nødvendige felter er korrekt inkluderet
             };
 
@@ -21,12 +24,18 @@ describe('Adoption API', () => {
                 .post('/create-user')
                 .send(newUser)
                 .end((err, res) => {
+                    if (err) {
+                        console.error(err); // Log fejlen for at forstå, hvad der går galt
+                        done(err);          // Afslut testen med en fejl
+                        return;
+                    }
                     res.should.have.status(201);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('username').eql('Soren');
+                    res.body.should.have.property('username').eql('slkdf1');
                     res.body.should.have.property('role').eql('user');
                     done();
                 });
+
         });
 
         it('should not POST a user without required fields', (done) => {
