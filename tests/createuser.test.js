@@ -9,7 +9,7 @@ describe('POST /create-user', () => {
     it('should create a new user and render login page', (done) => {
         chai.request(server)
             .post('/create-user')
-            .send({ username: 'Soren12312312313', password: '1234' })
+            .send({ username: 'Soren123123123133', password: '1234' })
             .end((err, res) => {
                 res.should.have.status(200);
                 res.text.should.include('login');

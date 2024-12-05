@@ -174,8 +174,6 @@ app.get('/myadoptions', async (req, res) => {
     }
 });
 
-
-
 // Route for serving uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
