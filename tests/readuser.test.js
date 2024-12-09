@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');  // Sørg for, at stien er korrekt til din app
-const User = require('../models/userModel');  // Hvis du bruger Mongoose, importér din model her
 
 chai.use(chaiHttp);
 chai.should();
