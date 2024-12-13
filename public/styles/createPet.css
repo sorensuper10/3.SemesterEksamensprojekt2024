@@ -77,7 +77,6 @@ label {
     color: #2c3e50;
 }
 
-
 /* Form labels and inputs */
 label {
     display: block;
@@ -138,19 +137,4 @@ button:hover {
     input, textarea, button {
         font-size: 0.9rem;
     }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-form {
-    animation: fadeIn 1.5s ease-in-out;
 }
