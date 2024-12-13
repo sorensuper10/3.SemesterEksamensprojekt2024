@@ -9,7 +9,7 @@ describe('POST /create-user', () => {
     it('should create a new user and render login page', (done) => {
         chai.request(server)
             .post('/create-user')
-            .send({ username: 'Test2', password: '1234' })
+            .send({ username: 'Test', password: '1234' })
             .end((err, res) => {
                 res.should.have.status(200);
                 res.text.should.include('login');
@@ -20,7 +20,7 @@ describe('POST /create-user', () => {
     it('should return 400 if username already exists', (done) => {
         chai.request(server)
             .post('/create-user')
-            .send({ username: 'ExistingUser', password: '1234' })
+            .send({ username: 'Test', password: '1234' })
             .end((err, res) => {
                 res.should.have.status(400);
                 res.text.should.eql('Brugernavn er allerede i brug.');

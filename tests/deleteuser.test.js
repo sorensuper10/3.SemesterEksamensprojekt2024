@@ -17,7 +17,7 @@ describe('POST /user/:id/delete', () => {
     before((done) => {
         // Opret en testbruger
         const testUser = new User({
-            username: 'TestUser42',
+            username: 'Test1',
             passwordHash: bcrypt.hashSync('password', 10)  // Hashe password korrekt
         });
 
@@ -28,7 +28,7 @@ describe('POST /user/:id/delete', () => {
                 agent
                     .post('/login')  // Post til login ruten (juster hvis login-metoden er anderledes)
                     .send({
-                        username: 'TestUser42',
+                        username: 'Test1',
                         password: 'password'  // Brug det rigtige password
                     })
                     .end((err, res) => {

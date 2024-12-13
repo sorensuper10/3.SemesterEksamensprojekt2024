@@ -12,7 +12,7 @@ describe('POST /user/:id/edit - Opdater bruger', () => {
     // Opret en bruger til at opdatere
     before((done) => {
         const testUser = new User({
-            username: 'TestUser53',
+            username: 'Test1',
             passwordHash: 'hashedpassword',  // Brug den korrekte metode til at hashe password
         });
 
@@ -28,7 +28,7 @@ describe('POST /user/:id/edit - Opdater bruger', () => {
     // Test for opdatering af bruger
     it('should UPDATE a user successfully', (done) => {
         const updatedUser = {
-            username: 'UpdatedUsername3',
+            username: 'UpdatedUsername',
             password: 'newpassword123',  // Ny adgangskode
         };
 
